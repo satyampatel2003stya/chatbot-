@@ -45,4 +45,7 @@ corpus.json: JSON file containing the chatbot's question-answer corpus.
 templates/index.html: HTML file for the chatbot's frontend.
 Troubleshooting
 KeyError: Ensure the conversation key is always included in the JSON data sent to the backend. The backend should handle the absence of this key gracefully.
-NLTK Data Download Issues: Ensure you have an active internet connection when running download_nltk_data.py.
+NLTK Data Download Issues: Ensure you have an active internet connection when running download_nltk_data.py
+
+#IMPORTANT index.html file inside the templates folder  and all file like app.py , corpus.json,templates in one folder .
+
