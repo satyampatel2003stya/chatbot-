@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        #chatbox { width: 300px; margin: 100px auto; }
+        #messages { height: 300px; border: 1px solid #ccc; overflow-y: scroll; padding: 10px; }
+        .message { margin: 5px 0; }
+        .user { text-align: right; }
+        .bot { text-align: left; }
+        input[type="text"] { width: 80%; padding: 10px; }
+        input[type="submit"] { width: 18%; padding: 10px; }
+    </style>
+</head>
+<body>
+    <div id="chatbox">
+        <div id="messages"></div>
+        <form id="chatForm">
+            <input type="text" id="question" autocomplete="off" placeholder="Type a message..." required>
+            <input type="submit" value="Send">
+        </form>
+    </div>
+    <script>
+        document.getElementById('chatForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const question = document.getElementById('question').value;
+            const messages = document.getElementById('messages');
+
+            // Display the user's message
+            const userMessage = document.createElement('div');
+            userMessage.classList.add('message', 'user');
+            userMessage.textContent = question;
+            messages.appendChild(userMessage);
+
+            fetch('/ask', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ question })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display the bot's response
+                const botMessage = document.createElement('div');
+                botMessage.classList.add('message', 'bot');
+                botMessage.textContent = data.answer;
+                messages.appendChild(botMessage);
+                messages.scrollTop = messages.scrollHeight;
+            });
+
+            document.getElementById('question').value = '';
+        });
+    </script>
+</body>
+</html>
